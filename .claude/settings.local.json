@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:\\\\Users\\\\ekabu\\\\Documents\\\\dev-portfolio \\(1\\)\" -maxdepth 3 -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" -o -name \"*.jsx\" -o -name \"*.js\" -o -name \"*.css\" \\\\\\) ! -path \"*/.next/*\" ! -path \"*/node_modules/*\" ! -path \"*/out/*\")"
+    ]
+  }
+}
