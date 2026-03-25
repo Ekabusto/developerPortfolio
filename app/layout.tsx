@@ -1,9 +1,10 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Outfit, Syne } from "next/font/google"
 
-const inter = Inter({ subsets: ["latin"] })
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" })
+const syne = Syne({ subsets: ["latin"], variable: "--font-syne", weight: ["400", "600", "700", "800"] })
 
 export const metadata: Metadata = {
   title: "Ekaitz Busto | Full Stack Developer",
@@ -59,7 +60,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/favicon.png", type: "image/png" }],
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
     apple: [{ url: "/apple-icon.png", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
@@ -74,9 +79,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${outfit.variable} ${syne.variable} font-sans`}>{children}</body>
     </html>
   )
 }

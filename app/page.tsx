@@ -6,9 +6,11 @@ import { Github, Linkedin, Mail, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { LanguageProvider, useLanguage } from "@/components/language-provider"
 import { ThemeProvider } from "@/components/theme-provider"
+import { useTheme } from "@/components/theme-provider"
 import LanguageSwitcher from "@/components/language-switcher"
 import ThemeToggle from "@/components/theme-toggle"
 import TechStack from "@/components/tech-stack"
+import { CanvasBackground } from "@/components/canvas-background"
 
 export default function Home() {
   return (
@@ -48,7 +50,7 @@ function SpotlightCard({
         className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[inherit]"
         style={{
           background:
-            "radial-gradient(circle at var(--sx, 50%) var(--sy, 50%), rgba(99,102,241,0.12), transparent 60%)",
+            "radial-gradient(circle at var(--sx, 50%) var(--sy, 50%), rgba(16,185,129,0.10), transparent 60%)",
         }}
       />
       {children}
@@ -61,7 +63,7 @@ function ScrollProgressBar() {
   const { scrollYProgress } = useScroll()
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] bg-indigo-500 z-[200] origin-left"
+      className="fixed top-0 left-0 right-0 h-[2px] bg-emerald-500 z-[200] origin-left"
       style={{ scaleX: scrollYProgress }}
     />
   )
@@ -69,6 +71,7 @@ function ScrollProgressBar() {
 
 function Portfolio() {
   const { t } = useLanguage()
+  const { theme } = useTheme()
   const [activeSection, setActiveSection] = useState("home")
   const [isScrolling, setIsScrolling] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -120,7 +123,7 @@ function Portfolio() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
               <button
                 onClick={() => scrollToSection("home")}
-                className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors tracking-tight"
+                className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors tracking-tight font-display"
               >
                 ekaitzbusto.dev
               </button>
@@ -136,7 +139,7 @@ function Portfolio() {
                       className={cn(
                         "text-sm font-medium transition-colors relative",
                         activeSection === section
-                          ? "text-indigo-600 dark:text-indigo-400"
+                          ? "text-emerald-600 dark:text-emerald-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100",
                       )}
                     >
@@ -144,7 +147,7 @@ function Portfolio() {
                       {activeSection === section && (
                         <motion.span
                           layoutId="nav-indicator"
-                          className="absolute -bottom-1 left-0 right-0 h-px bg-indigo-500"
+                          className="absolute -bottom-1 left-0 right-0 h-px bg-emerald-500"
                         />
                       )}
                     </button>
@@ -190,7 +193,7 @@ function Portfolio() {
                         className={cn(
                           "text-sm font-medium w-full text-left py-2.5 transition-colors",
                           activeSection === section
-                            ? "text-indigo-600 dark:text-indigo-400"
+                            ? "text-emerald-600 dark:text-emerald-400"
                             : "text-zinc-600 dark:text-zinc-400",
                         )}
                       >
@@ -207,10 +210,13 @@ function Portfolio() {
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section ref={heroRef} id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        {/* Canvas particle network — absolute, clipped to hero by overflow-hidden */}
+        <CanvasBackground isDark={theme === "dark"} />
+
         {/* Dot-grid background */}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.45] dark:opacity-[0.18]"
+          className="absolute inset-0 -z-10 opacity-[0.35] dark:opacity-[0.12]"
           style={{
             backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.18) 1px, transparent 1px)",
             backgroundSize: "28px 28px",
@@ -219,14 +225,15 @@ function Portfolio() {
         {/* Ambient glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-32 -left-32 w-[700px] h-[700px] rounded-full bg-indigo-400/10 dark:bg-indigo-600/10 blur-3xl -z-10"
+          className="pointer-events-none absolute -top-32 -left-32 w-[700px] h-[700px] rounded-full bg-emerald-400/8 dark:bg-emerald-600/10 blur-3xl -z-10"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-violet-400/8 dark:bg-violet-600/8 blur-3xl -z-10"
+          className="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-teal-400/6 dark:bg-teal-600/8 blur-3xl -z-10"
         />
 
-        <motion.div style={{ y: heroY }} className="container mx-auto px-6 py-16 md:py-0 w-full">
+        {/* relative z-[1] ensures hero content is always above the canvas */}
+        <motion.div style={{ y: heroY }} className="relative z-[1] container mx-auto px-6 py-16 md:py-0 w-full">
           <div className="flex flex-col-reverse md:flex-row md:items-center md:gap-12 lg:gap-20">
 
             {/* Text side */}
@@ -240,12 +247,12 @@ function Portfolio() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15, duration: 0.5 }}
-                className="text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-4"
+                className="text-xs font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-4"
               >
                 Full Stack Developer
               </motion.p>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-zinc-900 dark:text-zinc-50 mb-6 leading-none tracking-tight">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-zinc-900 dark:text-zinc-50 mb-6 leading-none tracking-tight font-display">
                 {"Ekaitz\nBusto".split("\n").map((line, i) => (
                   <motion.span
                     key={i}
@@ -276,7 +283,7 @@ function Portfolio() {
               >
                 <button
                   onClick={() => scrollToSection("projects")}
-                  className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 shadow-lg shadow-indigo-500/20"
+                  className="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 shadow-lg shadow-emerald-500/25"
                 >
                   {t("hero.viewWork")}
                 </button>
@@ -319,7 +326,7 @@ function Portfolio() {
                 <span className="text-zinc-200 dark:text-zinc-700">|</span>
                 <a
                   href="mailto:ekabusto@gmail.com"
-                  className="text-sm text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  className="text-sm text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                 >
                   ekabusto@gmail.com
                 </a>
@@ -341,7 +348,7 @@ function Portfolio() {
                 {/* Glow ring behind the photo */}
                 <div
                   aria-hidden
-                  className="absolute inset-0 rounded-2xl bg-indigo-500/20 blur-2xl scale-95 -z-10"
+                  className="absolute inset-0 rounded-2xl bg-emerald-500/15 blur-2xl scale-95 -z-10"
                 />
                 <div className="w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-2xl overflow-hidden ring-1 ring-zinc-100 dark:ring-zinc-800 shadow-2xl shadow-black/10">
                   <img
@@ -370,7 +377,7 @@ function Portfolio() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 font-display">
               {t("experience.title")}
             </h2>
             <p className="text-zinc-500 dark:text-zinc-400 max-w-xl">{t("experience.subtitle")}</p>
@@ -394,7 +401,7 @@ function Portfolio() {
                     whileInView={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 20, delay: index * 0.12 + 0.1 }}
                     viewport={{ once: true }}
-                    className="w-3 h-3 rounded-full bg-indigo-500 dark:bg-indigo-400 ring-[3px] ring-zinc-50 dark:ring-zinc-900 z-10 flex-shrink-0"
+                    className="w-3 h-3 rounded-full bg-emerald-500 dark:bg-emerald-400 ring-[3px] ring-zinc-50 dark:ring-zinc-900 z-10 flex-shrink-0"
                   />
                   {index < arr.length - 1 && (
                     <motion.div
@@ -417,7 +424,7 @@ function Portfolio() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">{job.title}</h3>
-                        <p className="text-sm text-indigo-600 dark:text-indigo-400">{job.company}</p>
+                        <p className="text-sm text-emerald-600 dark:text-emerald-400">{job.company}</p>
                         <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-0.5">{job.period}</p>
                       </div>
                     </div>
@@ -431,7 +438,7 @@ function Portfolio() {
                           viewport={{ once: true }}
                           className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400"
                         >
-                          <span className="text-indigo-400 dark:text-indigo-500 mt-0.5 flex-shrink-0">—</span>
+                          <span className="text-emerald-400 dark:text-emerald-500 mt-0.5 flex-shrink-0">—</span>
                           <span>{item}</span>
                         </motion.li>
                       ))}
@@ -454,7 +461,7 @@ function Portfolio() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 font-display">
               {t("projects.title")}
             </h2>
             <p className="text-zinc-500 dark:text-zinc-400 max-w-xl">{t("projects.subtitle")}</p>
@@ -498,7 +505,7 @@ function Portfolio() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                     >
                       <Github className="w-4 h-4" />
                       GitHub

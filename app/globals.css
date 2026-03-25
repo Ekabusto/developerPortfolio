@@ -6,6 +6,36 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Font variables ──────────────────────────────────────────── */
+:root {
+  --font-outfit: "Outfit", sans-serif;
+  --font-syne: "Syne", sans-serif;
+}
+
+/* Base font application */
+body {
+  font-family: var(--font-outfit), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-syne), sans-serif;
+}
+
+/* ── Custom scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.35);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.6);
+}
+
 /* ── Film grain overlay ───────────────────────────────────────
    Fixed pseudo-element larger than the viewport so the grain
    texture never shows a hard edge as it shifts position.

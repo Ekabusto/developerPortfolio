@@ -19,7 +19,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   // Translation function
   const t = (key: string, options?: { returnObjects?: boolean }) => {
     const keys = key.split(".")
-    let value = translations[language]
+    let value: any = translations[language]
 
     for (const k of keys) {
       if (value === undefined) return key

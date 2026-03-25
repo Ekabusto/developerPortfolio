@@ -121,7 +121,7 @@ export default function TechStack() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">
+          <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 font-display">
             {t("techStack.title")}
           </h2>
           <p className="text-zinc-500 dark:text-zinc-400 max-w-xl">{t("techStack.subtitle")}</p>
@@ -156,7 +156,7 @@ export default function TechStack() {
                       className={cn(
                         "flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-200",
                         selectedTech === tech.name
-                          ? "bg-indigo-50 dark:bg-indigo-950/50 border-indigo-200 dark:border-indigo-700 shadow-sm"
+                          ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-700 shadow-sm"
                           : "bg-white dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 hover:border-zinc-200 dark:hover:border-zinc-700 hover:shadow-sm",
                       )}
                     >

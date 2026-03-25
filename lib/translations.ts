@@ -37,14 +37,18 @@ export const translations = {
       items: [
         {
           id: 1,
-          title: "Full-Stack Developer",
+          title: "Full Stack Developer — Next.js / React / Node.js",
           company: "Oreka I.T.",
-          period: "Sept 2022 - Present",
+          period: "Sept 2022 - Feb 2026",
           logo: "/oreka_it_logo.jpeg",
           description: [
-            "Developed a proprietary MES system on React/Next.js",
-            "Created data capture solutions using Python, Javascript and more",
-            "Rewrote old codebases on Next.js",
+            "Planned and developed a proprietary conversational AI agent with RAG",
+            "Migrated legacy applications to Next.js",
+            "Full stack development and planning of a proprietary MES system",
+            "Maintenance and management of SQL and NoSQL databases",
+            "Planning and development of computer vision applications",
+            "Maintenance and development of industrial sensing applications",
+            "Python scripting for data capture and automation",
           ],
         },
         {
@@ -142,14 +146,18 @@ export const translations = {
       items: [
         {
           id: 1,
-          title: "Desarrollador Full-Stack",
+          title: "Desarrollador Full Stack — Next.js / React / Node.js",
           company: "Oreka I.T.",
-          period: "Sept 2022 - Presente",
+          period: "Sept 2022 - Feb 2026",
           logo: "/oreka_it_logo.jpeg",
           description: [
-            "Desarrollo de un sistema MES propietario con React/Next.js",
-            "Creación de soluciones de captura de datos utilizando Python, Javascript y más",
-            "Reescritura de bases de código antiguas en Next.js",
+            "Planificación y desarrollo de agente conversacional de IA propio con RAG",
+            "Migración de aplicaciones a Next.js",
+            "Desarrollo y planificación full stack de sistema MES propio",
+            "Mantenimiento y gestión de bases de datos SQL y NoSQL",
+            "Planificación y desarrollo de aplicaciones de visión artificial",
+            "Mantenimiento y desarrollo de aplicaciones de sensorica industrial",
+            "Scripting en Python para captura de datos y automatización",
           ],
         },
         {
@@ -251,14 +259,18 @@ export const translations = {
       items: [
         {
           id: 1,
-          title: "Full-Stack Garatzailea",
+          title: "Full Stack Garatzailea — Next.js / React / Node.js",
           company: "Oreka I.T.",
-          period: "2022ko Iraila - Gaur egun",
+          period: "2022ko Iraila - 2026ko Otsaila",
           logo: "/oreka_it_logo.jpeg",
           description: [
-            "React/Next.js-ekin MES sistema propioa garatu",
-            "Datuak jasotzeko soluzioak sortu Python, Javascript eta beste teknologia batzuekin",
-            "Kode zaharrak Next.js-era berridatzi",
+            "RAG erabiliz IA solaskide agente propioa planifikatu eta garatu",
+            "Aplikazioak Next.js-era migratu",
+            "MES sistema propioaren full stack garapena eta planifikazioa",
+            "SQL eta NoSQL datu-baseen mantentze-lana eta kudeaketa",
+            "Ikusmen artifizialeko aplikazioen planifikazioa eta garapena",
+            "Industria sentsoring aplikazioen mantentze-lana eta garapena",
+            "Datu-kaptura eta automatizaziorako Python scripting",
           ],
         },
         {
