@@ -9,8 +9,8 @@ const syne = Syne({ subsets: ["latin"], variable: "--font-syne", weight: ["400",
 export const metadata: Metadata = {
   title: "Ekaitz Busto | Full Stack Developer",
   description:
-    "Full Stack Developer specializing in creating exceptional digital experiences with React, Next.js, and modern web technologies.",
-  keywords: ["Full Stack Developer", "React", "Next.js", "TypeScript", "Web Development", "Ekaitz Busto"],
+    "Full Stack Developer specializing in React, Next.js, Python, and modern web technologies. Building web applications, MES systems, and data tools.",
+  keywords: ["Full Stack Developer", "React", "Next.js", "TypeScript", "Python", "Web Development", "Ekaitz Busto", "MES", "Generative AI"],
   authors: [{ name: "Ekaitz Busto" }],
   creator: "Ekaitz Busto",
   publisher: "Ekaitz Busto",
@@ -26,17 +26,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ekaitz Busto | Full Stack Developer",
     description:
-      "Full Stack Developer specializing in creating exceptional digital experiences with React, Next.js, and modern web technologies.",
+      "Full Stack Developer specializing in React, Next.js, Python, and modern web technologies. Building web applications, MES systems, and data tools.",
     url: "https://ekaitzbusto.dev",
     siteName: "Ekaitz Busto Portfolio",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Ekaitz Busto - Full Stack Developer Portfolio",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -44,8 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ekaitz Busto | Full Stack Developer",
     description:
-      "Full Stack Developer specializing in creating exceptional digital experiences with React, Next.js, and modern web technologies.",
-    images: ["/og-image.png"],
+      "Full Stack Developer specializing in React, Next.js, Python, and modern web technologies. Building web applications, MES systems, and data tools.",
     creator: "@ekaitzbusto",
   },
   robots: {
@@ -68,7 +59,20 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-icon.png", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
-    generator: 'v0.dev'
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Ekaitz Busto",
+  url: "https://ekaitzbusto.dev",
+  jobTitle: "Full Stack Developer",
+  description: "Full Stack Developer specializing in React, Next.js, Python, and modern web technologies.",
+  sameAs: [
+    "https://github.com/Ekabusto",
+    "https://linkedin.com/in/ekaitzbusto",
+  ],
+  knowsAbout: ["React", "Next.js", "TypeScript", "Python", "Node.js", "MES Systems", "Generative AI", "Azure"],
 }
 
 export default function RootLayout({
@@ -81,6 +85,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className={`${outfit.variable} ${syne.variable} font-sans`}>{children}</body>
     </html>
