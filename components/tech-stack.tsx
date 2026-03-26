@@ -121,6 +121,7 @@ export default function TechStack() {
           viewport={{ once: true }}
           className="mb-12"
         >
+          <p className="text-xs font-mono text-zinc-300 dark:text-zinc-700 tracking-widest mb-2 select-none">01 —</p>
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 font-display">
             {t("techStack.title")}
           </h2>

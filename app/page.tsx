@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
-import { Github, Linkedin, Mail, Menu, X } from "lucide-react"
+import { Github, Linkedin, Mail, Menu, X, ExternalLink, Globe, Construction, ChevronUp, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { LanguageProvider, useLanguage } from "@/components/language-provider"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -69,6 +69,34 @@ function ScrollProgressBar() {
   )
 }
 
+// Floating button that appears after scrolling past the hero
+function ScrollToTopButton() {
+  const { scrollY } = useScroll()
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    return scrollY.on("change", (y) => setVisible(y > 500))
+  }, [scrollY])
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8, y: 8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 8 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Scroll to top"
+          className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 shadow-lg hover:bg-emerald-600 dark:hover:bg-emerald-500 hover:text-white dark:hover:text-white transition-colors duration-200 flex items-center justify-center"
+        >
+          <ChevronUp className="w-5 h-5" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  )
+}
+
 function Portfolio() {
   const { t } = useLanguage()
   const { theme } = useTheme()
@@ -115,6 +143,7 @@ function Portfolio() {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased transition-colors duration-300">
       <ScrollProgressBar />
+      <ScrollToTopButton />
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-100 dark:border-zinc-800/80 transition-colors duration-300">
@@ -146,8 +175,10 @@ function Portfolio() {
                       {t(`nav.${section}`)}
                       {activeSection === section && (
                         <motion.span
-                          layoutId="nav-indicator"
-                          className="absolute -bottom-1 left-0 right-0 h-px bg-emerald-500"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="absolute -bottom-1 left-0 right-0 h-px bg-emerald-500 origin-left"
                         />
                       )}
                     </button>
@@ -243,11 +274,23 @@ function Portfolio() {
               transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="flex-1 mt-10 md:mt-0"
             >
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.08, duration: 0.5 }}
+                className="flex items-center gap-2 mb-3"
+              >
+                <span className="inline-flex items-center gap-1.5 text-xs bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 text-emerald-700 dark:text-emerald-400 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {t("hero.available")}
+                </span>
+              </motion.div>
+
               <motion.p
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15, duration: 0.5 }}
-                className="text-xs font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-4"
+                className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4"
               >
                 Full Stack Developer
               </motion.p>
@@ -299,7 +342,7 @@ function Portfolio() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7, duration: 0.5 }}
-                className="flex items-center gap-5"
+                className="flex items-center gap-4"
               >
                 {[
                   { href: "https://github.com/EBustoD", icon: <Github className="w-5 h-5" />, label: "GitHub" },
@@ -323,13 +366,6 @@ function Portfolio() {
                     {icon}
                   </motion.a>
                 ))}
-                <span className="text-zinc-200 dark:text-zinc-700">|</span>
-                <a
-                  href="mailto:ekabusto@gmail.com"
-                  className="text-sm text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                >
-                  ekabusto@gmail.com
-                </a>
               </motion.div>
             </motion.div>
 
@@ -377,6 +413,7 @@ function Portfolio() {
             viewport={{ once: true }}
             className="mb-12"
           >
+            <p className="text-xs font-mono text-zinc-300 dark:text-zinc-700 tracking-widest mb-2 select-none">02 —</p>
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 font-display">
               {t("experience.title")}
             </h2>
@@ -461,6 +498,7 @@ function Portfolio() {
             viewport={{ once: true }}
             className="mb-12"
           >
+            <p className="text-xs font-mono text-zinc-300 dark:text-zinc-700 tracking-widest mb-2 select-none">03 —</p>
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 font-display">
               {t("projects.title")}
             </h2>
@@ -476,40 +514,154 @@ function Portfolio() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -4 }}
+                whileHover={project.wip ? {} : { y: -4 }}
               >
-                <SpotlightCard className="h-full bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-200 dark:hover:border-zinc-700 transition-colors duration-200 group/card">
-                  <div className="overflow-hidden h-44 bg-zinc-50 dark:bg-zinc-800">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                    />
-                  </div>
+                <SpotlightCard className={cn(
+                  "h-full bg-white dark:bg-zinc-900 border rounded-xl overflow-hidden transition-colors duration-200 group/card",
+                  project.wip
+                    ? "border-zinc-100 dark:border-zinc-800/60 opacity-70"
+                    : "border-zinc-100 dark:border-zinc-800 hover:border-zinc-200 dark:hover:border-zinc-700"
+                )}>
+
+                  {/* ── Card header ── */}
+                  {project.wip ? (
+                    /* WIP: construction-stripe overlay */
+                    <div className="relative h-44 overflow-hidden bg-zinc-50 dark:bg-zinc-800/60">
+                      <div
+                        aria-hidden
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage:
+                            "repeating-linear-gradient(45deg, transparent, transparent 14px, rgba(251,191,36,0.06) 14px, rgba(251,191,36,0.06) 28px)",
+                        }}
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/25 flex items-center justify-center">
+                          <Construction className="w-5 h-5 text-amber-500/70" />
+                        </div>
+                        <div className="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/25 rounded-full px-3 py-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                          <span className="text-xs font-medium text-amber-600 dark:text-amber-400">
+                            {t("projects.wip")}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Inprotop: branded CSS header */
+                    <div
+                      className="relative h-44 overflow-hidden"
+                      style={{ background: "linear-gradient(135deg, #1b2e50 0%, #243d6b 55%, #1a2840 100%)" }}
+                    >
+                      {/* Radial amber glow */}
+                      <div
+                        aria-hidden
+                        className="absolute inset-0"
+                        style={{
+                          background: "radial-gradient(ellipse at 75% 50%, rgba(251,146,60,0.18) 0%, transparent 65%)",
+                        }}
+                      />
+                      {/* Subtle horizontal lines */}
+                      <div
+                        aria-hidden
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage:
+                            "repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 22px)",
+                        }}
+                      />
+                      {/* Decorative ring */}
+                      <div
+                        aria-hidden
+                        className="absolute -right-6 -top-6 w-32 h-32 rounded-full border border-amber-500/15"
+                      />
+                      <div
+                        aria-hidden
+                        className="absolute -right-2 -top-2 w-20 h-20 rounded-full border border-amber-500/10"
+                      />
+                      {/* Brand text */}
+                      <div className="absolute bottom-0 left-0 p-5">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <div className="w-3 h-px bg-amber-500" />
+                          <span className="text-[10px] font-semibold tracking-widest text-amber-400/80 uppercase">
+                            Web Modernization
+                          </span>
+                        </div>
+                        <p className="text-lg font-bold text-white leading-none tracking-tight font-display">INPROTOP</p>
+                        <p className="text-xs text-blue-200/50 mt-0.5">Ingeniería Civil & Topografía</p>
+                      </div>
+                      {/* Hover scale overlay */}
+                      <div className="absolute inset-0 bg-blue-900/0 group-hover/card:bg-blue-900/10 transition-colors duration-500" />
+                    </div>
+                  )}
+
+                  {/* ── Card body ── */}
                   <div className="p-5">
-                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-2">{project.title}</h3>
+                    <h3 className={cn(
+                      "font-semibold mb-2",
+                      project.wip ? "text-zinc-500 dark:text-zinc-500" : "text-zinc-900 dark:text-zinc-100"
+                    )}>
+                      {project.title}
+                    </h3>
                     <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      {(project.technologies as string[]).map((tech) => (
+                      {(project.technologies as string[]).map((tech: string) => (
                         <span
                           key={tech}
-                          className="text-xs px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
+                          className={cn(
+                            "text-xs px-2 py-0.5 rounded-md",
+                            project.wip
+                              ? "bg-zinc-100 dark:bg-zinc-800/60 text-zinc-400 dark:text-zinc-600"
+                              : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
+                          )}
                         >
                           {tech}
                         </span>
                       ))}
                     </div>
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                      GitHub
-                    </a>
+
+                    {/* Links row */}
+                    {project.wip ? (
+                      <p className="text-xs text-zinc-400 dark:text-zinc-600 italic">
+                        {t("projects.wipNote")}
+                      </p>
+                    ) : (
+                      <div className="flex flex-wrap items-center gap-4">
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                          GitHub
+                        </a>
+                        {project.liveDemo && (
+                          <a
+                            href={project.liveDemo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            {t("projects.liveDemo")}
+                          </a>
+                        )}
+                        {project.oldWeb && (
+                          <a
+                            href={project.oldWeb}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+                          >
+                            <Globe className="w-4 h-4" />
+                            {t("projects.oldWeb")}
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </SpotlightCard>
               </motion.div>
@@ -518,29 +670,61 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────── */}
-      <footer className="py-10 border-t border-zinc-100 dark:border-zinc-800">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* ── Footer — CTA ─────────────────────────────────────── */}
+      <footer className="border-t border-zinc-100 dark:border-zinc-800">
+        {/* CTA block */}
+        <div className="container mx-auto px-6 py-16 md:py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-8"
+          >
             <div>
-              <p className="font-semibold text-zinc-900 dark:text-zinc-100">Ekaitz Busto</p>
-              <p className="text-sm text-zinc-400 dark:text-zinc-500">{t("footer.role")}</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-4">
+                {t("footer.openTo")}
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold font-display text-zinc-900 dark:text-zinc-100 leading-tight">
+                {t("footer.cta")}
+              </h2>
             </div>
-            <div className="flex items-center gap-5">
+            <motion.a
+              href="mailto:ekabusto@gmail.com"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-emerald-500/20 self-start md:self-auto flex-shrink-0"
+            >
+              <Mail className="w-4 h-4" />
+              {t("footer.ctaAction")}
+              <ArrowUpRight className="w-4 h-4" />
+            </motion.a>
+          </motion.div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="border-t border-zinc-100 dark:border-zinc-800">
+          <div className="container mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <button
+              onClick={() => scrollToSection("home")}
+              className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-display"
+            >
+              ekaitzbusto.dev
+            </button>
+            <div className="flex items-center gap-4">
               {[
-                { href: "https://github.com/EBustoD", icon: <Github className="w-5 h-5" />, label: "GitHub" },
+                { href: "https://github.com/EBustoD", icon: <Github className="w-4 h-4" />, label: "GitHub" },
                 {
                   href: "https://www.linkedin.com/in/ekaitz-busto-ruiz-de-gordoa-138b07234/",
-                  icon: <Linkedin className="w-5 h-5" />,
+                  icon: <Linkedin className="w-4 h-4" />,
                   label: "LinkedIn",
                 },
-                { href: "mailto:ekabusto@gmail.com", icon: <Mail className="w-5 h-5" />, label: "Email" },
               ].map(({ href, icon, label }) => (
                 <a
                   key={label}
                   href={href}
-                  target={label !== "Email" ? "_blank" : undefined}
-                  rel={label !== "Email" ? "noopener noreferrer" : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
                 >
@@ -548,8 +732,8 @@ function Portfolio() {
                 </a>
               ))}
             </div>
-            <p className="text-sm text-zinc-400 dark:text-zinc-600">
-              © {new Date().getFullYear()} Ekaitz Busto. {t("footer.rights")}
+            <p className="text-xs text-zinc-400 dark:text-zinc-600">
+              © {new Date().getFullYear()} Ekaitz Busto
             </p>
           </div>
         </div>
